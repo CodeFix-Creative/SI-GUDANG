@@ -1,0 +1,78 @@
+@extends('layouts.template')
+
+@section('produk-retur' , 'active')
+
+
+@section('content')
+<div class="section-header">
+   {{-- back button --}}
+    <div class="section-header-back">
+        <a href="{{ route('produk-retur.index') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+    </div>
+    <h1>Ubah Data</h1>
+</div>
+
+<div class="section-body">
+    <h2 class="section-title">Ubah Data</h2>
+    <p class="section-lead">
+        Harap isi sesuai aturan
+    </p>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Data Produk Retur</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('produk-retur.update' , $data->id) }}" enctype="multipart/form-data" method="post">
+                     @method('PUT')
+                     @csrf
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Produk</label>
+                            <div class="col-sm-12 col-md-7">
+                                <select class="form-control select2" name="id_produk">
+                                    <option value="" disabled selected>Pilih Produk</option>
+                                    @foreach ($produk as $item)
+                                    <option value="{{ $item->id }}" {{ ($data->id_produk == $item->id) ? 'selected' : '' }}>{{ $item->nama_produk }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Pelanggan</label>
+                            <div class="col-sm-12 col-md-7">
+                                <select class="form-control select2" name="id_pelanggan">
+                                    <option value="" disabled selected>Pilih Pelanggan</option>
+                                    @foreach ($pelanggan as $item)
+                                    <option value="{{ $item->id }}" {{ ($data->id_pelanggan == $item->id) ? 'selected' : '' }}>{{ $item->nama_pelanggan }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Jumlah</label>
+                            <div class="col-sm-12 col-md-7">
+                                <input type="number" min="0" class="form-control" name="jumlah" value="{{ $data->jumlah }}">
+                            </div>
+                        </div>
+                        {{-- <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tanggal Masuk</label>
+                            <div class="col-sm-12 col-md-7">
+                                <input type="date" class="form-control" name="tanggal_masuk" value="{{ $data->tanggal_masuk }}">
+                            </div>
+                        </div> --}}
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
+                            <div class="col-sm-12 col-md-7">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
