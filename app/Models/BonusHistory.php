@@ -25,7 +25,7 @@ class BonusHistory extends Model
     ];
 
     public function pelanggan(){
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id');
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id')->withTrashed();
     }
 
 

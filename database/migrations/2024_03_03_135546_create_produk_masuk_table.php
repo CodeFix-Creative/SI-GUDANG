@@ -22,6 +22,7 @@ class CreateProdukMasukTable extends Migration
             $table->string('id_user');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

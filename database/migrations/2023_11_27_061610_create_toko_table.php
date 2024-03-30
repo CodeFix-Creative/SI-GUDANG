@@ -20,6 +20,7 @@ class CreateTokoTable extends Migration
             $table->string('email');
             $table->string('alamat');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

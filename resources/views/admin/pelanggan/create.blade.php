@@ -34,14 +34,9 @@
                             </div>
                         </div>
                         <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Toko</label>
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama Toko</label>
                             <div class="col-sm-12 col-md-7">
-                                <select class="form-control select2" name="id_toko">
-                                    <option value="" disabled selected>Pilih Toko</option>
-                                    @foreach ($toko as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nama_toko }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="toko">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
@@ -61,6 +56,17 @@
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Alamat</label>
                             <div class="col-sm-12 col-md-7">
                                 <textarea class="form-control" id="alamat" rows="3" name="alamat"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Sales</label>
+                            <div class="col-sm-12 col-md-7">
+                                <select class="form-control select2" name="id_sales">
+                                    <option value="" disabled selected>Pilih Sales</option>
+                                    @foreach ($sales as $item)
+                                    <option value="{{ $item->id }}">{{ $item->user->nama }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row mb-4">

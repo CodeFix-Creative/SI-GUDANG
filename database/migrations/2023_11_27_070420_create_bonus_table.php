@@ -22,6 +22,7 @@ class CreateBonusTable extends Migration
             $table->string('satuan');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

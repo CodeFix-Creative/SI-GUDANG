@@ -24,6 +24,6 @@ class Bonus extends Model
     ];
 
     public function produk(){
-        return $this->belongsTo(Produk::class, 'id_produk', 'id');
+        return $this->belongsTo(Produk::class, 'id_produk', 'id')->withTrashed();
     }
 }

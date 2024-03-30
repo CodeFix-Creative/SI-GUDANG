@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container">
+    <div class="text-center">
+      <img src="{{ asset('assets/img/baliqu.png') }}" alt="" class="m-auto" width="300">
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

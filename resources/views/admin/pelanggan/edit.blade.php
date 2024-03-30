@@ -35,14 +35,9 @@
                             </div>
                         </div>
                         <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Toko</label>
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama Toko</label>
                             <div class="col-sm-12 col-md-7">
-                                <select class="form-control select2" name="id_toko">
-                                    @foreach ($toko as $item)
-                                    {{-- <option value="" disabled selected>Pilih Toko</option> --}}
-                                    <option value="{{ $item->id }}" {{ ($data->id_toko == $item->id) ? 'selected' : '' }}>{{ $item->nama_toko }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="toko" value="{{ $data->toko }}">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
@@ -64,32 +59,17 @@
                                 <textarea class="form-control" id="alamat" rows="3" name="alamat">{{ $data->alamat }}</textarea>
                             </div>
                         </div>
-                        {{-- <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nomor
-                                Telephone<br><span style="color: #aeaeae;">( ex. 6281xxxx )</span></label>
+                        <div class="form-group row mb-4">
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Sales</label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="number" class="form-control" name="nomor_telephone" value="{{ $data->nomor_telephone }}">
-                            </div>
-                        </div> --}}
-                        {{-- <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Role</label>
-                            <div class="col-sm-12 col-md-7">
-                                <select class="form-control selectric" name="role">
-                                    <option value="Admin" {{ ($data->role == 'Admin') ? 'selected' : '' }}>Admin</option>
-                                    <option value="Sales" {{ ($data->role == 'Sales') ? 'selected' : '' }}>Sales</option>
-                                    <option value="Super Admin" {{ ($data->role == 'Super Admin') ? 'selected' : '' }}>Super Admin</option>
+                                <select class="form-control select2" name="id_sales">
+                                    @foreach ($sales as $item)
+                                    {{-- <option value="" disabled selected>Pilih sales</option> --}}
+                                    <option value="{{ $item->id }}" {{ ($data->id_sales == $item->id) ? 'selected' : '' }}>{{ $item->user->nama }}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                        </div> --}}
-                        {{-- <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status</label>
-                            <div class="col-sm-12 col-md-7">
-                                <select class="form-control selectric" name="status">
-                                    <option value="Aktif" {{ ($data->status == 'Aktif') ? 'selected' : '' }}>Aktif</option>
-                                    <option value="Tidak Aktif" {{ ($data->status == 'Tidak Aktif') ? 'selected' : '' }}>Tidak Aktif</option>
-                                </select>
-                            </div>
-                        </div> --}}
+                        </div>
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                             <div class="col-sm-12 col-md-7">

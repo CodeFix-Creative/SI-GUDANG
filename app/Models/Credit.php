@@ -19,9 +19,10 @@ class Credit extends Model
         'tanggal_mulai',
         'tanggal_jatuh_tempo',
         'status',
+        'jenis_credit',
     ];
 
     public function pelanggan(){
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id');
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id')->withTrashed();
     }
 }

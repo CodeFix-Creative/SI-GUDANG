@@ -45,7 +45,7 @@ class ProdukController extends Controller
             'id_kategori' => 'required',
             'stock' => 'required',
             'satuan' => 'required',
-            'harga' => 'required',
+            // 'harga' => 'required',
          ]);
 
          $data = Produk::create([
@@ -53,7 +53,7 @@ class ProdukController extends Controller
             'id_kategori' => $request->id_kategori,
             'stock' => $request->stock,
             'satuan' => $request->satuan,
-            'harga' => $request->harga,
+            // 'harga' => $request->harga,
             'status' => $request->status,
          ]);
 
@@ -99,7 +99,7 @@ class ProdukController extends Controller
         $produk->id_kategori = $request->id_kategori; 
         // $produk->stock = $request->stock; 
         $produk->satuan = $request->satuan; 
-        $produk->harga = $request->harga; 
+        // $produk->harga = $request->harga; 
         $produk->status = $request->status; 
         $produk->save();
 
@@ -114,6 +114,8 @@ class ProdukController extends Controller
      */
     public function destroy(Produk $produk)
     {
-        //
+        $produk->delete();
+
+        return redirect()->route('produk.index')->with('toast_success', 'Data berhasil ditambahkan!');
     }
 }

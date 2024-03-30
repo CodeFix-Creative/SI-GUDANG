@@ -108,15 +108,21 @@ class UserController extends Controller
         //
     }
 
+    public function ubahPassword()
+    {
+        return view('admin.user.changePassword');
+    }
+
     public function postNewPassword(Request $request)
     {
+        // dd($request->all());
         if($request->password_baru == $request->confirm_password_baru){
           if (Hash::check($request->password_lama, Auth::user()->password)) {
              auth()->user()->update([
                 'password' => bcrypt($request->password_baru),
              ]);
 
-             return redirect()->route('change_password.index')->with('toast_success', 'Password Anda Berhasil Di Ubah!!');
+             return redirect()->route('password.change')->with('toast_success', 'Password Anda Berhasil Di Ubah!!');
           }else{
              return back()->with('toast_error', 'Password Lama Anda Tidak Sama !!');
           }

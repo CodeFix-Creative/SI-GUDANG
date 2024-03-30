@@ -20,6 +20,7 @@ class CreateTransaksiPengeluaranSalesTable extends Migration
             $table->string('total_transaksi');
             $table->date('tanggal_transaksi');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

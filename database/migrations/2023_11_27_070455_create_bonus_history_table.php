@@ -24,6 +24,7 @@ class CreateBonusHistoryTable extends Migration
             $table->date('tanggal_bonus');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

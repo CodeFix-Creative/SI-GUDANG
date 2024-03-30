@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Produk;
+use App\Models\TransaksiPemasukan;
+use App\Models\Credit;
+use App\Models\PembayaranCredit;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -13,7 +18,59 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view ('admin.dashboard.index');
+        $produk = Produk::orderBy('nama_produk' , 'ASC')->get();
+
+        $penjualan = TransaksiPemasukan::whereDate('tanggal_transaksi', Carbon::today())->get();
+        $penjualanCashHariIni = 0;
+        $penjualanTransferHariIni = 0;
+        $penjualanCreditHariIni = 0;
+        foreach ($penjualan as $item) {
+            if($item->pembayaran == 'Cash'){
+                $penjualanCashHariIni += $item->total_transaksi;
+            }
+            if($item->pembayaran == 'Transfer'){
+                $penjualanTransferHariIni += $item->total_transaksi;
+            }
+            if($item->pembayaran == 'Credit'){
+                $penjualanCreditHariIni += $item->total_transaksi;
+            }
+        }
+
+
+        // Credit 
+        $creditLancar = 0;
+        $creditMacet = 0;
+        $creditTidakTertagih = 0;
+
+        $credit = Credit::where('status' , 'Belum Lunas')->get();
+        
+        foreach ($credit as $data) {
+            if ($data->jenis_credit == 'Lancar') {
+                $detailCredit = PembayaranCredit::where('id_credit' , $data->id)->where('status' , 'Belum Lunas')->get();
+                foreach ($detailCredit as $item) {
+                    $creditLancar += $item->total_bayar;
+                }
+            }
+
+            if ($data->jenis_credit == 'Macet') {
+                $detailCredit = PembayaranCredit::where('id_credit' , $data->id)->where('status' , 'Belum Lunas')->get();
+                foreach ($detailCredit as $item) {
+                    $creditMacet += $item->total_bayar;
+                }
+            }
+
+            if ($data->jenis_credit == 'Tidak Tertagih') {
+                $detailCredit = PembayaranCredit::where('id_credit' , $data->id)->where('status' , 'Belum Lunas')->get();
+                foreach ($detailCredit as $item) {
+                    $creditTidakTertagih += $item->total_bayar;
+                }
+            }
+        }
+
+        // dd($creditMacet);
+
+
+        return view ('admin.dashboard.index' , compact('produk' , 'penjualanCashHariIni' , 'penjualanTransferHariIni' , 'penjualanCreditHariIni' , 'creditLancar' , 'creditMacet' , 'creditTidakTertagih'));
     }
 
     /**

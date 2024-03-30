@@ -18,6 +18,7 @@ class CreateTransaksiPengeluaranTable extends Migration
             $table->string('id_user');
             $table->string('total_transaksi');
             $table->date('tanggal_transaksi');
+            $table->text('note');
             $table->timestamps();
         });
     }

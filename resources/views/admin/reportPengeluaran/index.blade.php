@@ -25,6 +25,36 @@
                     <h4>List Data User</h4>
                 </div> --}}
                 <div class="card-body">
+                  <form action="{{ route('report.pengeluaran.filter') }}" method="post">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Tanggal Mulai</label>
+                                <input type="text" class="form-control datepicker" name="tanggal_mulai">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Tanggal Akhir</label>
+                                <input type="text" class="form-control datepicker" name="tanggal_akhir">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary btn-lg mt-4">Filter</button>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                {{-- <div class="card-header">
+                    <h4>List Data User</h4>
+                </div> --}}
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">
                             <thead>
@@ -78,7 +108,7 @@
             <div class="modal-body">
 
                 <!-- FORM -->
-                <form action="{{ route('report.pemasukan.export') }}" method="post">
+                <form action="{{ route('report.pengeluaran.export') }}" method="post">
                     @csrf
 
                     <!-- Tanggal Awal -->

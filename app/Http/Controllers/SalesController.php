@@ -116,8 +116,11 @@ class SalesController extends Controller
      * @param  \App\Models\Sales  $sales
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sales $sales)
+    public function destroy(Sales $sale)
     {
-        //
+        // dd($sale);
+        $sale->delete();
+
+        return redirect()->route('sales.index')->with('toast_success', 'Data berhasil ditambahkan!');
     }
 }

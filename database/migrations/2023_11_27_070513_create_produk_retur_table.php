@@ -20,6 +20,7 @@ class CreateProdukReturTable extends Migration
             $table->string('jumlah');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

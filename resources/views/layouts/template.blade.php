@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>{{ env('APP_NAME') }}</title>
+    <title>Baliqu Permen</title>
 
-    <link rel="shortcut icon" href="{{ asset('assets/img/stisla-fill.svg') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/img/baliqu.png') }}">
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
@@ -39,7 +39,8 @@
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="index.html">SIGUDANG</a>
+                        <img src="{{ asset('assets/img/baliqu.png') }}" alt="" width="50">
+                        <a href="index.html">Baliqu Permen</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
                         <a href="index.html">SG</a>

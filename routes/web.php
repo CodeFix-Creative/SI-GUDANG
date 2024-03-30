@@ -23,6 +23,7 @@ use App\Http\Controllers\TransaksiPemasukanSalesController;
 use App\Http\Controllers\TransaksiPengeluaranController;
 use App\Http\Controllers\TransaksiPengeluaranSalesController;
 use App\Http\Controllers\ProdukMasukController;
+use App\Http\Controllers\ProdukHargaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,10 @@ Route::prefix('admin')->middleware('auth')->group(function() {
 
   // User
   Route::resource('user', UserController::class);
+
+  // Ganti Password
+  Route::get('/ubah-password', [UserController::class, 'ubahPassword'])->name('password.change');
+  Route::post('/ubah-password', [UserController::class, 'postNewPassword'])->name('password.post');
 
   // Sales
   Route::resource('sales', SalesController::class);
@@ -76,6 +81,9 @@ Route::prefix('admin')->middleware('auth')->group(function() {
   Route::get('/produk-retur-diterima/{produkRetur}', [ProdukReturController::class, 'diterima'])->name('produk-retur.diterima');
   Route::get('/produk-retur-ditolak/{produkRetur}', [ProdukReturController::class, 'ditolak'])->name('produk-retur.ditolak');
 
+  // produk
+  Route::resource('produk-harga', ProdukHargaController::class);
+
   // Bonus
   Route::resource('bonus', BonusController::class);
 
@@ -84,6 +92,7 @@ Route::prefix('admin')->middleware('auth')->group(function() {
 
   // Pemasukan
   Route::resource('transaksi-pemasukan', TransaksiPemasukanController::class);
+  Route::get('/transaksi-pemasukan-form/{id}', [TransaksiPemasukanController::class, 'form'])->name('transaksi-pemasukan.form');
 
   Route::post('/addToCart', [TransaksiPemasukanController::class, 'addToCart'])->name('addToCart');
   Route::post('/removeCart', [TransaksiPemasukanController::class, 'removeCart'])->name('removeCart');
@@ -93,6 +102,8 @@ Route::prefix('admin')->middleware('auth')->group(function() {
   // Credit
   Route::resource('credit', CreditController::class);
   Route::post('/lunas-detail-credit', [CreditController::class, 'detailLunas'])->name('lunas.detail');
+  Route::post('/filter-credit', [CreditController::class, 'filter'])->name('credit.filter');
+  Route::post('/jenis-credit', [CreditController::class, 'ubahJenis'])->name('credit.jenis');
 
   // Pemasukan Sales
   Route::resource('transaksi-pemasukan-sales', TransaksiPemasukanSalesController::class);
@@ -117,6 +128,7 @@ Route::prefix('admin')->middleware('auth')->group(function() {
   Route::get('/report-pemasukan', [TransaksiPemasukanController::class, 'Report'])->name('report.pemasukan.index');
   Route::get('/report-pemasukan/{id}', [TransaksiPemasukanController::class, 'ReportDetail'])->name('report.pemasukan.detail');
   Route::post('/report-pemasukan-export', [TransaksiPemasukanController::class, 'export'])->name('report.pemasukan.export');
+  Route::post('/report-pemasukan-filter', [TransaksiPemasukanController::class, 'filter'])->name('report.pemasukan.filter');
 
   // Report Pemasukan Sales
   Route::get('/report-pemasukan-sales', [TransaksiPemasukanSalesController::class, 'Report'])->name('report.pemasukan.sales.index');
@@ -125,6 +137,8 @@ Route::prefix('admin')->middleware('auth')->group(function() {
   // Report Pengeluaran
   Route::get('/report-pengeluaran', [TransaksiPengeluaranController::class, 'Report'])->name('report.pengeluaran.index');
   Route::get('/report-pengeluaran/{id}', [TransaksiPengeluaranController::class, 'ReportDetail'])->name('report.pengeluaran.detail');
+  Route::post('/report-pengeluaran-export', [TransaksiPengeluaranController::class, 'export'])->name('report.pengeluaran.export');
+  Route::post('/report-pengeluaran-filter', [TransaksiPengeluaranController::class, 'filter'])->name('report.pengeluaran.filter');
 
   // Report Pengeluaran Sales
   Route::get('/report-pengeluaran-sales', [TransaksiPengeluaranSalesController::class, 'Report'])->name('report.pengeluaran.sales.index');

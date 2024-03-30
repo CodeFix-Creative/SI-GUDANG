@@ -23,12 +23,12 @@ class ProdukMasuk extends Model
     ];
 
     public function produk(){
-        return $this->belongsTo(Produk::class, 'id_produk', 'id');
+        return $this->belongsTo(Produk::class, 'id_produk', 'id')->withTrashed();
     }
 
 
     public function suplier(){
-        return $this->belongsTo(Suplier::class, 'id_suplier', 'id');
+        return $this->belongsTo(Suplier::class, 'id_suplier', 'id')->withTrashed();
     }
 
     public function user(){

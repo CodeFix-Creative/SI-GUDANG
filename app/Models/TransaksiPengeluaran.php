@@ -16,9 +16,22 @@ class TransaksiPengeluaran extends Model
         'id_user',
         'total_transaksi',
         'tanggal_transaksi',
+        'note',
     ];
 
     public function user(){
         return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+
+    public function dataDetailPengeluaran(){
+        $datas = DetailPengeluaran::where('id_transaksi' , $this->id)->get();
+
+        return $datas;
+    }
+
+    public function countDetailPengeluaran(){
+        $datas = DetailPengeluaran::where('id_transaksi' , $this->id)->count();
+
+        return $datas;
     }
 }

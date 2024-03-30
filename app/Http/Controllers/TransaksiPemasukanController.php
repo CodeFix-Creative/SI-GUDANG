@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\TransaksiPemasukan;
 use App\Models\DetailPemasukan;
 use App\Models\Produk;
+use App\Models\ProdukHarga;
 use App\Models\Pelanggan;
 use App\Models\Credit;
+use App\Models\Sales;
 use App\Models\PembayaranCredit;
 use Illuminate\Http\Request;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PemasukanExport;
 
 class TransaksiPemasukanController extends Controller
 {
@@ -23,10 +27,21 @@ class TransaksiPemasukanController extends Controller
      */
     public function index()
     {
-        $produk = Produk::orderBy('nama_produk' , 'ASC')->get();
-        $pelanggan = Pelanggan::orderBy('nama_pelanggan' , 'ASC')->get();
+        $datas = Pelanggan::orderBy('nama_pelanggan' , 'ASC')->get();
 
-        return view('admin.pemasukan.index' , compact('produk' , 'pelanggan'));
+        return view('admin.pemasukan.index' , compact('datas'));
+    }
+
+    public function form($id)
+    {
+        // Session::forget('Cart');
+        $pelanggan = Pelanggan::where('id' , $id)->first();
+        $produk = ProdukHarga::where('id_pelanggan' , $pelanggan->id)->get();
+        $sales = Sales::where('id' , $pelanggan->id_sales)->first();
+
+        // dd($sales);
+
+        return view('admin.pemasukan.form' , compact('produk' , 'pelanggan' , 'sales'));
     }
 
     /**
@@ -113,7 +128,7 @@ class TransaksiPemasukanController extends Controller
 
     public function addToCart(Request $request)
     {
-
+        // return $request->all();
         $totalOrder = 0;
 
         if(Session::has('Cart')) {
@@ -136,6 +151,7 @@ class TransaksiPemasukanController extends Controller
             } else {
                 $carts[] = [
                     'id' => $request->id,
+                    'id_pelanggan' => $request->id_pelanggan,
                     'nama_barang' => $request->nama_barang,
                     'jumlah' => $request->jumlah,
                     'harga'=> $request->harga,
@@ -154,6 +170,7 @@ class TransaksiPemasukanController extends Controller
             [
                 'id' => $request->id,
                 'nama_barang' => $request->nama_barang,
+                'id_pelanggan' => $request->id_pelanggan,
                 'jumlah' => $request->jumlah,
                 'harga'=> $request->harga,
                 'total'=> $request->harga * $request->jumlah,
@@ -257,6 +274,7 @@ class TransaksiPemasukanController extends Controller
             // Save data to pemasukan table
             $pemasukan = TransaksiPemasukan::create([
                 'total_transaksi' => $request->total_order,
+                'note' => $request->note,
                 'tanggal_transaksi' => $request->tanggal_transaksi,
                 'id_pelanggan' => $request->id_pelanggan,
                 'id_user' => auth()->user()->id,
@@ -273,7 +291,7 @@ class TransaksiPemasukanController extends Controller
             if ($request->bukti != null) {
                 $extension = $request->file('bukti')->extension();
                 $nameFile = str_replace(' ', '-', $request->tanggal_transaksi);
-                $nameToko = str_replace(' ', '-', $pelanggan->toko->nama_toko);
+                $nameToko = str_replace(' ', '-', $pelanggan->toko);
                 $time = str_replace(':', '-', $timeNow);
                 $bukti = $nameFile . '-' . $nameToko. '-' . $time . '.' . $extension;
                 // dd($bukti);
@@ -289,6 +307,7 @@ class TransaksiPemasukanController extends Controller
             // Save data to pemasukan table
             $pemasukan = TransaksiPemasukan::create([
                 'total_transaksi' => $request->total_order,
+                'note' => $request->note,
                 'tanggal_transaksi' => $request->tanggal_transaksi,
                 'id_pelanggan' => $request->id_pelanggan,
                 'id_user' => auth()->user()->id,
@@ -312,6 +331,7 @@ class TransaksiPemasukanController extends Controller
                     'tanggal_mulai' => $request->tanggal_start,
                     'tanggal_jatuh_tempo' => $jatuh_tempo,
                     'status' => 'Belum Lunas',
+                    'jenis_credit' => 'Lancar',
                 ]);
 
                 
@@ -341,6 +361,7 @@ class TransaksiPemasukanController extends Controller
                     'tanggal_mulai' => $request->tanggal_start,
                     'tanggal_jatuh_tempo' => $jatuh_tempo,
                     'status' => 'Belum Lunas',
+                    'jenis_credit' => 'Lancar',
                 ]);
 
                 
@@ -373,6 +394,7 @@ class TransaksiPemasukanController extends Controller
                     'tanggal_mulai' => $request->tanggal_start,
                     'tanggal_jatuh_tempo' => $jatuh_tempo,
                     'status' => 'Belum Lunas',
+                    'jenis_credit' => 'Lancar',
                 ]);
 
                 for ($i=0; $i <3 ; $i++) { 
@@ -407,6 +429,7 @@ class TransaksiPemasukanController extends Controller
                     'tanggal_mulai' => $request->tanggal_start,
                     'tanggal_jatuh_tempo' => $jatuh_tempo,
                     'status' => 'Belum Lunas',
+                    'jenis_credit' => 'Lancar',
                 ]);
 
                 for ($i=0; $i <6 ; $i++) { 
@@ -441,6 +464,7 @@ class TransaksiPemasukanController extends Controller
                     'tanggal_mulai' => $request->tanggal_start,
                     'tanggal_jatuh_tempo' => $jatuh_tempo,
                     'status' => 'Belum Lunas',
+                    'jenis_credit' => 'Lancar',
                 ]);
 
                 for ($i=0; $i <12 ; $i++) { 
@@ -459,6 +483,7 @@ class TransaksiPemasukanController extends Controller
             // Save data to pemasukan table
             $pemasukan = TransaksiPemasukan::create([
                 'total_transaksi' => $request->total_order,
+                'note' => $request->note,
                 'tanggal_transaksi' => $request->tanggal_transaksi,
                 'id_pelanggan' => $request->id_pelanggan,
                 'id_user' => auth()->user()->id,
@@ -516,6 +541,25 @@ class TransaksiPemasukanController extends Controller
 
     public function export(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        $tanggal_awal = $request->tanggal_awal;
+        $tanggal_akhir = $request->tanggal_akhir;
+
+        return Excel::download(new PemasukanExport($tanggal_awal , $tanggal_akhir), 'Data-Pemasukan-'. $tanggal_awal .'-'. $tanggal_akhir .'.xlsx');
+    }
+
+    public function filter(Request $request){
+        // dd($request->all());
+        if ($request->pembayaran == 'Semua') {
+            $datas = TransaksiPemasukan::whereBetween('tanggal_transaksi', [$request->tanggal_mulai, $request->tanggal_akhir])->orderBy('created_at' , 'ASC')->get();
+        }else{
+            $datas = TransaksiPemasukan::whereBetween('tanggal_transaksi', [$request->tanggal_mulai, $request->tanggal_akhir])->where('pembayaran' , $request->pembayaran)->orderBy('created_at' , 'ASC')->get();
+        }
+
+        $tanggalMulai = $request->tanggal_mulai;
+        $tanggalAkhir = $request->tanggal_akhir;
+        $pembayaran = $request->pembayaran;
+
+        return view('admin.reportPemasukan.filtered' , compact('datas' , 'tanggalMulai' , 'tanggalAkhir' , 'pembayaran'));
     }
 }

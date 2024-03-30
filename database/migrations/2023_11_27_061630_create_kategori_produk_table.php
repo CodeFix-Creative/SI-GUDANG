@@ -18,6 +18,7 @@ class CreateKategoriProdukTable extends Migration
             $table->string('nama_kategori');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

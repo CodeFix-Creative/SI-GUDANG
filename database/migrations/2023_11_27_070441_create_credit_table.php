@@ -21,7 +21,9 @@ class CreateCreditTable extends Migration
             $table->date('tanggal_mulai');
             $table->date('tanggal_jatuh_tempo');
             $table->string('status');
+            $table->string('jenis_credit');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

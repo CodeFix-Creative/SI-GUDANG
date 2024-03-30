@@ -166,6 +166,10 @@
                         </tr>
                     </table>
                     <input type="hidden" name="total_order" id="total_order_form" value="{{$totalHarga}}">
+                    <div class="form-group">
+                      <label for="note">Note</label>
+                      <textarea class="form-control" id="note" rows="7" name="note"></textarea>
+                    </div>
                     
                     <button type="submit" class="btn btn-success btn-sm float-right" id="tambah-cart" data-token-tambah="{{ csrf_token() }}"
                     data-url-tambah="{{ route('addCartPengeluaran') }}"><i

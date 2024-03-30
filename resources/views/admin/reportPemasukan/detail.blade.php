@@ -61,6 +61,15 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h4>Note :</h4>
+              <p>{{ $parent->note }}</p>
+            </div>
+          </div>
+        </div>
     </div>
 </div>
 @endsection

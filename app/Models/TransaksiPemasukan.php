@@ -21,6 +21,7 @@ class TransaksiPemasukan extends Model
         'pembayaran',
         'tenor',
         'bukti',
+        'note',
     ];
 
     public function user(){
@@ -29,10 +30,22 @@ class TransaksiPemasukan extends Model
 
 
     public function pelanggan(){
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id');
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id')->withTrashed();
     }
 
     public function detailPemasukan(){
         return $this->hasMany(DetailPemasukan::class, 'id_transaksi');
+    }
+
+    public function dataDetailPemasukan(){
+        $datas = DetailPemasukan::where('id_transaksi' , $this->id)->get();
+
+        return $datas;
+    }
+
+    public function countDetailPemasukan(){
+        $datas = DetailPemasukan::where('id_transaksi' , $this->id)->count();
+
+        return $datas;
     }
 }

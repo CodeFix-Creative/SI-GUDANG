@@ -19,7 +19,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-title">{{ Auth::user()->role ?? '-' }}</div>
-                <a href="#!" class="dropdown-item has-icon">
+                <a href="{{ route('password.change') }}" class="dropdown-item has-icon">
                     <i class="fas fa-cog"></i> Ubah Password
                 </a>
                 <div class="dropdown-divider"></div>

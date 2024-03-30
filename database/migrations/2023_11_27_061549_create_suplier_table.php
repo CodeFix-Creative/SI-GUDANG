@@ -21,6 +21,7 @@ class CreateSuplierTable extends Migration
             $table->string('jenis');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

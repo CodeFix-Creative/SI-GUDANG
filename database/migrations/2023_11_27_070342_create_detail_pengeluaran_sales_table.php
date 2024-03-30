@@ -22,6 +22,7 @@ class CreateDetailPengeluaranSalesTable extends Migration
             $table->string('harga');
             $table->string('total_harga');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

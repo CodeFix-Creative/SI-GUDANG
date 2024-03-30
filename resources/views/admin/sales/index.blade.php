@@ -63,7 +63,17 @@
                                         <div class="badge badge-danger">{{ $data->status }}</div>
                                         @endif
                                     </td>
-                                    <td><a href="{{ route('sales.edit' , $data->id) }}" class="btn btn-warning">Ubah</a></td>
+                                    <td>
+                                      <a href="{{ route('sales.edit' , $data->id) }}" class="btn btn-warning">Ubah</a>
+                                      <form method="POST" action="{{ route('sales.destroy' , $data->id) }}" id="delete" class="d-inline">
+                                          {{ csrf_field() }}
+                                          {{ method_field('DELETE') }}
+
+                                          <div class="d-inline">
+                                              <input type="submit" class="btn btn-danger delete-user" value="Hapus">
+                                          </div>
+                                      </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

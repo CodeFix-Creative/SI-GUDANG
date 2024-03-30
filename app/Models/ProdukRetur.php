@@ -21,11 +21,11 @@ class ProdukRetur extends Model
     ];
 
     public function produk(){
-        return $this->belongsTo(Produk::class, 'id_produk', 'id');
+        return $this->belongsTo(Produk::class, 'id_produk', 'id')->withTrashed();
     }
 
 
     public function pelanggan(){
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id');
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id')->withTrashed();
     }
 }

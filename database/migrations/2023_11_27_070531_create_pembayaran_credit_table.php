@@ -22,7 +22,9 @@ class CreatePembayaranCreditTable extends Migration
             $table->date('tanggal_bayar')->nullable();
             $table->date('tanggal_jatuh_tempo');
             $table->string('status');
+            $table->string('bukti')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

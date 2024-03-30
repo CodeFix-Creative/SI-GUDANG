@@ -105,6 +105,8 @@ class SuplierController extends Controller
      */
     public function destroy(Suplier $suplier)
     {
-        //
+        $suplier->delete();
+
+        return redirect()->route('suplier.index')->with('toast_success', 'Data berhasil ditambahkan!');
     }
 }

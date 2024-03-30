@@ -21,6 +21,7 @@ class CreateSalesTable extends Migration
             $table->string('alamat');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

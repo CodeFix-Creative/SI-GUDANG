@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pelanggan;
-use App\Models\Toko;
+use App\Models\Sales;
 use Illuminate\Http\Request;
 
 class PelangganController extends Controller
@@ -27,9 +27,9 @@ class PelangganController extends Controller
      */
     public function create()
     {
-        $toko = Toko::all();
+        $sales = Sales::all();
 
-        return view('admin.pelanggan.create', compact('toko'));
+        return view('admin.pelanggan.create', compact('sales'));
     }
 
     /**
@@ -41,6 +41,9 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        $pelanggan = Pelanggan::withTrashed()->count();
+        $current = $pelanggan + 1;
+        // dd($current);
 
         $validated = $request->validate([
             'email' => 'required|unique:users',
@@ -49,11 +52,13 @@ class PelangganController extends Controller
          ]);
 
          $data = Pelanggan::create([
+            'kode_pelanggan' => 'P' . $current,
             'nama_pelanggan' => $request->nama,
-            'id_toko' => $request->id_toko,
+            'toko' => $request->toko,
             'email' => $request->email,
             'nomor_telephone' => $request->nomor_telephone,
             'alamat' => $request->alamat,
+            'id_sales' => $request->id_sales,
          ]);
 
          return redirect()->route('pelanggan.index')->with('toast_success', 'Data berhasil ditambahkan!');
@@ -79,9 +84,9 @@ class PelangganController extends Controller
     public function edit(Pelanggan $pelanggan)
     {
         $data = $pelanggan;
-        $toko = Toko::all();
+        $sales = Sales::all();
 
-        return view('admin.pelanggan.edit' , compact('data' , 'toko'));
+        return view('admin.pelanggan.edit' , compact('data' , 'sales'));
     }
 
     /**
@@ -94,10 +99,11 @@ class PelangganController extends Controller
     public function update(Request $request, Pelanggan $pelanggan)
     {
         $pelanggan->nama_pelanggan = $request->nama; 
-        $pelanggan->id_toko = $request->id_toko; 
+        $pelanggan->toko = $request->toko; 
         $pelanggan->email = $request->email; 
         $pelanggan->nomor_telephone = $request->nomor_telephone; 
         $pelanggan->alamat = $request->alamat; 
+        $pelanggan->id_sales = $request->id_sales; 
         $pelanggan->save();
 
         return redirect()->route('pelanggan.index')->with('toast_success' , 'Data berhasil di ubah!');
@@ -111,6 +117,9 @@ class PelangganController extends Controller
      */
     public function destroy(Pelanggan $pelanggan)
     {
-        //
+        // dd($pelanggan);
+        $pelanggan->delete();
+
+        return redirect()->route('pelanggan.index')->with('toast_success', 'Data berhasil ditambahkan!');
     }
 }

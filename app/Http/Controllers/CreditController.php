@@ -116,4 +116,38 @@ class CreditController extends Controller
 
         return redirect()->back()->with('toast_success' , 'Data berhasil di ubah!');
     }
+
+
+    public function filter(Request $request){
+        // dd($request->all());
+        if ($request->status == 'Semua' && $request->jenis_credit == 'Semua') {
+            $datas = Credit::whereBetween('tanggal_mulai', [$request->tanggal_mulai, $request->tanggal_akhir])->orderBy('created_at' , 'ASC')->get();
+        }
+        elseif($request->status != 'Semua' && $request->jenis_credit == 'Semua'){
+            $datas = Credit::whereBetween('tanggal_mulai', [$request->tanggal_mulai, $request->tanggal_akhir])->where('status' , $request->status)->orderBy('created_at' , 'ASC')->get();
+        }
+        elseif($request->status == 'Semua' && $request->jenis_credit != 'Semua'){
+            $datas = Credit::whereBetween('tanggal_mulai', [$request->tanggal_mulai, $request->tanggal_akhir])->where('jenis_credit' , $request->jenis_credit)->orderBy('created_at' , 'ASC')->get();
+        }
+        elseif($request->status != 'Semua' && $request->jenis_credit != 'Semua'){
+            $datas = Credit::whereBetween('tanggal_mulai', [$request->tanggal_mulai, $request->tanggal_akhir])->where('jenis_credit' , $request->jenis_credit)->where('status' , $request->status)-orderBy('created_at' , 'ASC')->get();
+        }
+
+        $tanggalMulai = $request->tanggal_mulai;
+        $tanggalAkhir = $request->tanggal_akhir;
+        $status = $request->status;
+        $jenisCredit = $request->jenis_credit;
+
+        return view('admin.credit.filtered' , compact('datas' , 'tanggalMulai' , 'tanggalAkhir' , 'status' , 'jenisCredit'));
+        
+    }
+
+    public function ubahjenis(Request $request){
+        $data = Credit::where('id' , $request->id)->first();
+
+        $data->jenis_credit = $request->jenis_credit;
+        $data->save();
+
+        return redirect()->back()->with('toast_success' , 'Data berhasil di ubah!');
+    }
 }

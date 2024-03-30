@@ -19,9 +19,10 @@ class CreateProdukTable extends Migration
             $table->string('id_kategori');
             $table->string('stock');
             $table->string('satuan');
-            $table->string('harga');
+            // $table->string('harga');
             $table->string('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

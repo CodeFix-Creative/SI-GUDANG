@@ -9,6 +9,8 @@ use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PengeluaranExport;
 
 class TransaksiPengeluaranController extends Controller
 {
@@ -233,6 +235,7 @@ class TransaksiPengeluaranController extends Controller
         $pengeluaran = TransaksiPengeluaran::create([
             'total_transaksi' => $request->total_order,
             'tanggal_transaksi' => $request->tanggal_transaksi,
+            'note' => $request->note,
             'id_user' => auth()->user()->id,
         ]);
 
@@ -272,5 +275,23 @@ class TransaksiPengeluaranController extends Controller
         $datas = DetailPengeluaran::where('id_transaksi' , $id)->get();
 
         return view('admin.reportPengeluaran.detail' , compact('datas' , 'parent'));
+    }
+
+    public function export(Request $request)
+    {
+        // dd($request->all());
+        $tanggal_awal = $request->tanggal_awal;
+        $tanggal_akhir = $request->tanggal_akhir;
+
+        return Excel::download(new PengeluaranExport($tanggal_awal , $tanggal_akhir), 'Data-Pengeluaran-'. $tanggal_awal .'-'. $tanggal_akhir .'.xlsx');
+    }
+
+    public function filter(Request $request){
+        $datas = TransaksiPengeluaran::whereBetween('tanggal_transaksi', [$request->tanggal_mulai, $request->tanggal_akhir])->orderBy('created_at' , 'ASC')->get();
+
+        $tanggalMulai = $request->tanggal_mulai;
+        $tanggalAkhir = $request->tanggal_akhir;
+
+        return view('admin.reportPengeluaran.filtered' , compact('datas' , 'tanggalMulai' , 'tanggalAkhir'));
     }
 }

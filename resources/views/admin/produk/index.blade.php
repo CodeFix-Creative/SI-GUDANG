@@ -36,7 +36,7 @@
                                     <th>Kategori</th>
                                     <th>Stok</th>
                                     <th>Satuan</th>
-                                    <th>Harga</th>
+                                    {{-- <th>Harga</th> --}}
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -51,7 +51,7 @@
                                     <td>{{ $data->kategori->nama_kategori }}</td>
                                     <td>{{ $data->stock }}</td>
                                     <td>{{ $data->satuan }}</td>
-                                    <td>Rp. {{ number_format($data->harga, 0, '', '.') }}</td>
+                                    {{-- <td>Rp. {{ number_format($data->harga, 0, '', '.') }}</td> --}}
                                     <td>
                                         @if ($data->status == "Aktif")
                                         <div class="badge badge-success">{{ $data->status }}</div>
@@ -59,7 +59,17 @@
                                         <div class="badge badge-danger">{{ $data->status }}</div>
                                         @endif
                                     </td>
-                                    <td><a href="{{ route('produk.edit' , $data->id) }}" class="btn btn-warning">Ubah</a></td>
+                                    <td>
+                                      <a href="{{ route('produk.edit' , $data->id) }}" class="btn btn-warning">Ubah</a>
+                                      <form method="POST" action="{{ route('produk.destroy' , $data->id) }}" id="delete" class="d-inline">
+                                          {{ csrf_field() }}
+                                          {{ method_field('DELETE') }}
+
+                                          <div class="d-inline">
+                                              <input type="submit" class="btn btn-danger delete-user" value="Hapus">
+                                          </div>
+                                      </form>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

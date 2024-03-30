@@ -25,6 +25,47 @@
                     <h4>List Data User</h4>
                 </div> --}}
                 <div class="card-body">
+                  <form action="{{ route('report.pemasukan.filter') }}" method="post">
+                    @csrf
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Tanggal Mulai</label>
+                                <input type="text" class="form-control datepicker" name="tanggal_mulai">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>Tanggal Akhir</label>
+                                <input type="text" class="form-control datepicker" name="tanggal_akhir">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                              <label for="pembayaram">Pembayaran</label>
+                              <select class="form-control select2" id="pembayaran" name="pembayaran">
+                                <option value="Semua" selected>Semua</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Transfer">Transfer</option>
+                                <option value="Credit">Credit</option>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-primary btn-lg mt-4">Filter</button>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                {{-- <div class="card-header">
+                    <h4>List Data User</h4>
+                </div> --}}
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">
                             <thead>
@@ -39,6 +80,7 @@
                                     <th>Bukti</th>
                                     <th>Tenor</th>
                                     <th>Updater</th>
+                                    <th>Sales</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -68,6 +110,9 @@
                                     </td>
                                     <td>
                                       {{ $data->user->nama }}
+                                    </td>
+                                    <td>
+                                      {{ $data->pelanggan->sales->user->nama }}
                                     </td>
                                     <td>
                                       <a href="{{ route('report.pemasukan.detail' , $data->id) }}" class="btn btn-info">Detail</a>
