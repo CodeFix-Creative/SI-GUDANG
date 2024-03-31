@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\TransaksiPemasukan;
+use App\Models\TransaksiPengeluaran;
 use App\Models\Credit;
 use App\Models\PembayaranCredit;
 use Carbon\Carbon;
@@ -20,6 +21,7 @@ class DashboardController extends Controller
     {
         $produk = Produk::orderBy('nama_produk' , 'ASC')->get();
 
+        // Penjualan
         $penjualan = TransaksiPemasukan::whereDate('tanggal_transaksi', Carbon::today())->get();
         $penjualanCashHariIni = 0;
         $penjualanTransferHariIni = 0;
@@ -35,6 +37,24 @@ class DashboardController extends Controller
                 $penjualanCreditHariIni += $item->total_transaksi;
             }
         }
+
+
+        // Pengeluaran
+        $pengeluaranToday = TransaksiPengeluaran::whereDate('tanggal_transaksi', Carbon::today())->get();
+        $pengeluaranHariIni = 0;
+
+        foreach ($pengeluaranToday as $item) {
+            $pengeluaranHariIni += $item->total_transaksi;
+        } 
+
+
+
+        $pengeluaranMonthly = TransaksiPengeluaran::whereBetween('tanggal_transaksi', [ Carbon::now()->startOfMonth() , Carbon::now()->endOfMonth() ])->get();
+        $pengeluaranBulanIni = 0;
+
+        foreach ($pengeluaranMonthly as $item) {
+            $pengeluaranBulanIni += $item->total_transaksi;
+        } 
 
 
         // Credit 
@@ -70,7 +90,7 @@ class DashboardController extends Controller
         // dd($creditMacet);
 
 
-        return view ('admin.dashboard.index' , compact('produk' , 'penjualanCashHariIni' , 'penjualanTransferHariIni' , 'penjualanCreditHariIni' , 'creditLancar' , 'creditMacet' , 'creditTidakTertagih'));
+        return view ('admin.dashboard.index' , compact('produk' , 'penjualanCashHariIni' , 'penjualanTransferHariIni' , 'penjualanCreditHariIni' , 'creditLancar' , 'creditMacet' , 'creditTidakTertagih', 'pengeluaranHariIni' , 'pengeluaranBulanIni'));
     }
 
     /**

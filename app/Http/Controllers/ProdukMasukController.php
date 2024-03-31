@@ -109,7 +109,14 @@ class ProdukMasukController extends Controller
      */
     public function destroy(ProdukMasuk $produkMasuk)
     {
-        //
+        $produk = Produk::find($produkMasuk->id_produk)->first();
+        $produk->stock = $produk->stock - $produkMasuk->jumlah;
+        $produk->save();
+        // dd($produk->stock);
+        
+        $produkMasuk->delete();
+
+        return redirect()->route('produk-masuk.index')->with('toast_success', 'Data berhasil ditambahkan!');
     }
 
 

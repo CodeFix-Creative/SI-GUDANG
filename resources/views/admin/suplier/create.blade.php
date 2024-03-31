@@ -52,7 +52,7 @@
                                 <select class="form-control select2" name="jenis">
                                     <option value="" disabled selected>Pilih Jenis</option>
                                     <option value="Bal">Bal</option>
-                                    <option value="Dus">Dus</option>
+                                    <option value="Karung">Karung</option>
                                     <option value="Karton">Karton</option>
                                     <option value="Pcs">Pcs</option>
                                 </select>

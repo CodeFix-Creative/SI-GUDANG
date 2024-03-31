@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produk;
+use App\Models\ProdukHarga;
 use App\Models\KategoriProduk;
 use Illuminate\Http\Request;
 
@@ -97,9 +98,10 @@ class ProdukController extends Controller
     {
         $produk->nama_produk = $request->nama; 
         $produk->id_kategori = $request->id_kategori; 
-        // $produk->stock = $request->stock; 
         $produk->satuan = $request->satuan; 
-        // $produk->harga = $request->harga; 
+        if (auth()->user()->role == 'Super Admin') {
+          $produk->stock = $request->stock; 
+        }
         $produk->status = $request->status; 
         $produk->save();
 
@@ -114,7 +116,13 @@ class ProdukController extends Controller
      */
     public function destroy(Produk $produk)
     {
+        $produkHarga = ProdukHarga::where('id_produk' , $produk->id)->get();
+        // dd($produkHarga);
+        foreach ($produkHarga as $item) {
+            $item->delete();
+        }
         $produk->delete();
+
 
         return redirect()->route('produk.index')->with('toast_success', 'Data berhasil ditambahkan!');
     }

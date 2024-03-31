@@ -17,6 +17,9 @@ class ProdukHargaController extends Controller
     public function index()
     {
         $datas = ProdukHarga::orderBy('created_at' , 'ASC')->get();
+        // foreach ($datas as $item) {
+        //    $item->delete();
+        // }
 
         return view('admin.produkHarga.index' , compact('datas'));
     }
@@ -31,7 +34,7 @@ class ProdukHargaController extends Controller
         $produk = Produk::orderBy('nama_produk' , 'ASC')->get();
         $pelanggan = Pelanggan::orderBy('nama_pelanggan' , 'ASC')->get();
 
-        return view('admin.produkharga.create', compact('produk' , 'pelanggan'));
+        return view('admin.produkHarga.create', compact('produk' , 'pelanggan'));
     }
 
     /**
@@ -74,7 +77,7 @@ class ProdukHargaController extends Controller
         $pelanggan = Pelanggan::orderBy('nama_pelanggan' , 'ASC')->get();
         $data = $produkHarga;
 
-        return view('admin.produkharga.edit', compact('produk' , 'pelanggan' , 'data'));
+        return view('admin.produkHarga.edit', compact('produk' , 'pelanggan' , 'data'));
     }
 
     /**

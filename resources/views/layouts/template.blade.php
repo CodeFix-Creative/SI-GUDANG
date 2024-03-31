@@ -40,10 +40,10 @@
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
                         <img src="{{ asset('assets/img/baliqu.png') }}" alt="" width="50">
-                        <a href="index.html">Baliqu Permen</a>
+                        <a href="{{ route('dashboard.index') }}">Baliqu Permen</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html">SG</a>
+                        <a href="{{ route('dashboard.index') }}"><img src="{{ asset('assets/img/baliqu.png') }}" alt="" width="50"></a>
                     </div>
 
                     @include('layouts.sidebar')

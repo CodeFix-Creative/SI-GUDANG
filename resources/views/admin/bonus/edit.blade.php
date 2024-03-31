@@ -57,7 +57,7 @@
                                 <select class="form-control select2" name="satuan">
                                     <option value="" disabled selected>Pilih Satuan</option>
                                     <option value="Bal" {{ ($data->satuan == 'Bal') ? 'selected' : '' }}>Bal</option>
-                                    <option value="Dus" {{ ($data->satuan == 'Dus') ? 'selected' : '' }}>Dus</option>
+                                    <option value="Karung" {{ ($data->satuan == 'Karung') ? 'selected' : '' }}>Karung</option>
                                     <option value="Karton" {{ ($data->satuan == 'Karton') ? 'selected' : '' }}>Karton</option>
                                     <option value="Pcs" {{ ($data->satuan == 'Pcs') ? 'selected' : '' }}>Pcs</option>
                                 </select>

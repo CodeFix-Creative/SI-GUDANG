@@ -45,19 +45,22 @@
                                 </select>
                             </div>
                         </div>
-                        {{-- <div class="form-group row mb-4">
+                        @if (auth()->user()->role == 'Super Admin')
+                        <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Stok</label>
                             <div class="col-sm-12 col-md-7">
                                 <input type="number" min="0" class="form-control" name="stock" value="{{ $data->stock }}">
                             </div>
-                        </div> --}}
+                        </div>
+                        @endif
+                        
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Satuan Produk</label>
                             <div class="col-sm-12 col-md-7">
                                 <select class="form-control select2" name="satuan">
                                     <option value="" disabled selected>Pilih Satuan</option>
                                     <option value="Bal" {{ ($data->satuan == 'Bal') ? 'selected' : '' }}>Bal</option>
-                                    <option value="Dus" {{ ($data->satuan == 'Dus') ? 'selected' : '' }}>Dus</option>
+                                    <option value="Karung" {{ ($data->satuan == 'Karung') ? 'selected' : '' }}>Karung</option>
                                     <option value="Karton" {{ ($data->satuan == 'Karton') ? 'selected' : '' }}>Karton</option>
                                     <option value="Pcs" {{ ($data->satuan == 'Pcs') ? 'selected' : '' }}>Pcs</option>
                                 </select>

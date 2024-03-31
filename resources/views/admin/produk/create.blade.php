@@ -55,7 +55,7 @@
                                 <select class="form-control select2" name="satuan">
                                     <option value="" disabled selected>Pilih Satuan</option>
                                     <option value="Bal">Bal</option>
-                                    <option value="Dus">Dus</option>
+                                    <option value="Karung">Karung</option>
                                     <option value="Karton">Karton</option>
                                     <option value="Pcs">Pcs</option>
                                 </select>

@@ -253,11 +253,12 @@ class TransaksiPemasukanController extends Controller
                 ->withInput();
         }
 
-        $carts = Session::get('Cart')->all();
+        $carts = Session::get('Cart')->where('id_pelanggan' , $request->id_pelanggan)->all();
 
         $index = 0;
         // dd($carts);
 
+        // dd($carts);
         // Check Ketersediaan Barang
         foreach ($carts as $cart) {
             $produk = Produk::find($cart['id']);

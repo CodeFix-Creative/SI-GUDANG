@@ -25,7 +25,7 @@
             <span>Suplier</span></a>
     </li>
 
-    <li class="dropdown @yield('kategori-produk') @yield('produk') @yield('produk-harga')">
+    <li class="dropdown @yield('kategori-produk') @yield('produk') @yield('produk-harga') @yield('produk-masuk')">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fa-solid fa-boxes-stacked"></i>
             <span>Produk</span></a>
         <ul class="dropdown-menu">

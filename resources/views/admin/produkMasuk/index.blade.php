@@ -69,6 +69,16 @@
                                       <a href="{{ route('produk-masuk.diterima' , $data->id) }}" class="btn btn-success" title="Diterima"><i class="fa fa-check"></i></a>
                                       <a href="{{ route('produk-masuk.ditolak' , $data->id) }}" class="btn btn-danger" title="Ditolak"><i class="fa fa-xmark"></i></a>
                                       @endif
+                                      @if ($data->status == "Diterima" && auth()->user()->role == 'Super Admin')
+                                      <form method="POST" action="{{ route('produk-masuk.destroy' , $data->id) }}" id="delete" class="d-inline">
+                                          {{ csrf_field() }}
+                                          {{ method_field('DELETE') }}
+
+                                          <div class="d-inline">
+                                              <input type="submit" class="btn btn-danger delete-user" value="Hapus">
+                                          </div>
+                                      </form>
+                                      @endif
                                     </td>
                                 </tr>
                                 @endforeach

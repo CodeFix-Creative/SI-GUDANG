@@ -53,7 +53,7 @@
                                 <select class="form-control select2" name="jenis">
                                     <option value="" disabled selected>Pilih Jenis</option>
                                     <option value="Bal" {{ ($data->jenis == 'Bal') ? 'selected' : '' }}>Bal</option>
-                                    <option value="Dus" {{ ($data->jenis == 'Dus') ? 'selected' : '' }}>Dus</option>
+                                    <option value="Karung" {{ ($data->jenis == 'Karung') ? 'selected' : '' }}>Karung</option>
                                     <option value="Karton" {{ ($data->jenis == 'Karton') ? 'selected' : '' }}>Karton</option>
                                     <option value="Pcs" {{ ($data->jenis == 'Pcs') ? 'selected' : '' }}>Pcs</option>
                                 </select>

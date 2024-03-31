@@ -27,6 +27,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
+                                    <th>Kode Pelanggan</th>
                                     <th>Nama Pelanggan</th>
                                     <th>Action</th>
                                 </tr>
@@ -37,6 +38,7 @@
                                     <td class="text-center">
                                         {{ $loop->iteration }}
                                     </td>
+                                    <td>{{ $data->kode_pelanggan }}</td>
                                     <td>{{ $data->nama_pelanggan }}</td>
                                     <td>
                                         <a href="{{ route('transaksi-pemasukan.form' , $data->id) }}" class="btn btn-primary">pilih</a>
