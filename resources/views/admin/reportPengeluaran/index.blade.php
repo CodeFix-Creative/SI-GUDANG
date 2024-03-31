@@ -81,6 +81,16 @@
                                     </td>
                                     <td>
                                       <a href="{{ route('report.pengeluaran.detail' , $data->id) }}" class="btn btn-info">Detail</a>
+                                      @if (auth()->user()->role == 'Super Admin')
+                                      <form method="POST" action="{{ route('transaksi-pengeluaran.destroy' , $data->id) }}" id="delete" class="d-inline">
+                                          {{ csrf_field() }}
+                                          {{ method_field('DELETE') }}
+
+                                          <div class="d-inline">
+                                              <input type="submit" class="btn btn-danger delete-user" value="Hapus">
+                                          </div>
+                                      </form>
+                                      @endif
                                     </td>
                                 </tr>
                                 @endforeach

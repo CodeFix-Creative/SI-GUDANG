@@ -87,7 +87,14 @@ class TransaksiPengeluaranController extends Controller
      */
     public function destroy(TransaksiPengeluaran $transaksiPengeluaran)
     {
-        //
+        $detailtransaksi = DetailPengeluaran::where('id_transaksi' , $transaksiPengeluaran->id)->get();
+        foreach ($detailtransaksi as $item) {
+            $item->delete();
+        }
+
+        $transaksiPengeluaran->delete();
+
+        return redirect()->back()->with('toast_success', 'Order berhasil ditambahkan!');
     }
 
 
