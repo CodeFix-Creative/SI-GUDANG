@@ -14,6 +14,7 @@ class Credit extends Model
     public $timestamps = true;
     protected $fillable = [
         'id_pelanggan',
+        'id_transaksi',
         'total_credit',
         'tenor',
         'tanggal_mulai',
@@ -24,5 +25,8 @@ class Credit extends Model
 
     public function pelanggan(){
         return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id')->withTrashed();
+    }
+    public function transaksi(){
+        return $this->belongsTo(TransaksiPemasukan::class, 'id_transaksi', 'id');
     }
 }

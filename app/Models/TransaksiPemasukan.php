@@ -22,6 +22,7 @@ class TransaksiPemasukan extends Model
         'tenor',
         'bukti',
         'note',
+        'invoice',
     ];
 
     public function user(){

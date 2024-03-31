@@ -107,7 +107,34 @@ class TransaksiPemasukanController extends Controller
      */
     public function destroy(TransaksiPemasukan $transaksiPemasukan)
     {
-        //
+        if ($transaksiPemasukan->pembayaran == 'Credit') {
+            $credit = Credit::where('id_transaksi' , $transaksiPemasukan->id)->first();
+
+            if ($credit != null) {
+              $detailCredit = PembayaranCredit::where('id_credit' , $credit->id)->get();
+  
+              foreach ($detailCredit as $item) {
+                  $item->delete();
+              }
+  
+              $credit->delete();
+            }
+        }
+
+        $detailtransaksi = DetailPemasukan::where('id_transaksi' , $transaksiPemasukan->id)->get();
+        foreach ($detailtransaksi as $item) {
+            // kembalikan Stock
+            $produk = Produk::find($item->id_produk);
+            $produk->stock = $produk->stock + $item->jumlah;
+            $produk->save();
+            
+            // dd($produk);
+            $item->delete();
+        }
+
+        $transaksiPemasukan->delete();
+
+        return redirect()->back()->with('toast_success', 'Order berhasil ditambahkan!');
     }
 
     public function inCart($id) {
@@ -256,9 +283,21 @@ class TransaksiPemasukanController extends Controller
         $carts = Session::get('Cart')->where('id_pelanggan' , $request->id_pelanggan)->all();
 
         $index = 0;
-        // dd($carts);
+        
+        // Generate Invoice Number
+        $transaksi = TransaksiPemasukan::latest()->first();
+        if ($transaksi == null) {
+          $latestId = 1;
+        }else{
+          $latestId = $transaksi->id + 1;
+        }
 
-        // dd($carts);
+        $tanggal = explode('-' , $request->tanggal_transaksi);
+
+        $invoice = 'INV-' . $latestId . $tanggal[2] . $tanggal[1];
+
+        // dd($invoice);
+
         // Check Ketersediaan Barang
         foreach ($carts as $cart) {
             $produk = Produk::find($cart['id']);
@@ -274,6 +313,7 @@ class TransaksiPemasukanController extends Controller
         if ($request->jenis_pembayaran == 'Cash') {
             // Save data to pemasukan table
             $pemasukan = TransaksiPemasukan::create([
+                'invoice' => $invoice,
                 'total_transaksi' => $request->total_order,
                 'note' => $request->note,
                 'tanggal_transaksi' => $request->tanggal_transaksi,
@@ -307,6 +347,7 @@ class TransaksiPemasukanController extends Controller
 
             // Save data to pemasukan table
             $pemasukan = TransaksiPemasukan::create([
+                'invoice' => $invoice,
                 'total_transaksi' => $request->total_order,
                 'note' => $request->note,
                 'tanggal_transaksi' => $request->tanggal_transaksi,
@@ -318,6 +359,18 @@ class TransaksiPemasukanController extends Controller
         }
 
         if ($request->jenis_pembayaran == 'Credit') {
+
+            // Save data to pemasukan table
+            $pemasukan = TransaksiPemasukan::create([
+                'invoice' => $invoice,
+                'total_transaksi' => $request->total_order,
+                'note' => $request->note,
+                'tanggal_transaksi' => $request->tanggal_transaksi,
+                'id_pelanggan' => $request->id_pelanggan,
+                'id_user' => auth()->user()->id,
+                'pembayaran' => 'Credit',
+                'tenor' => $request->tenor,
+            ]);
             
             if ($request->tenor == '15 Hari') {
                 $tanggal_start = Carbon::createFromFormat('Y-m-d', $request->tanggal_start);
@@ -326,6 +379,7 @@ class TransaksiPemasukanController extends Controller
 
                 // Save data to pemasukan table
                 $credit = Credit::create([
+                    'id_transaksi' => $pemasukan->id,
                     'id_pelanggan' => $request->id_pelanggan,
                     'total_credit' => $request->total_order,
                     'tenor' => $request->tenor,
@@ -356,6 +410,7 @@ class TransaksiPemasukanController extends Controller
 
                 // Save data to pemasukan table
                 $credit = Credit::create([
+                    'id_transaksi' => $pemasukan->id,
                     'id_pelanggan' => $request->id_pelanggan,
                     'total_credit' => $request->total_order,
                     'tenor' => $request->tenor,
@@ -389,6 +444,7 @@ class TransaksiPemasukanController extends Controller
                 // dd($bayar_bulanan);
 
                 $credit = Credit::create([
+                    'id_transaksi' => $pemasukan->id,
                     'id_pelanggan' => $request->id_pelanggan,
                     'total_credit' => $request->total_order,
                     'tenor' => $request->tenor,
@@ -424,6 +480,7 @@ class TransaksiPemasukanController extends Controller
                 // dd($bayar_bulanan);
 
                 $credit = Credit::create([
+                    'id_transaksi' => $pemasukan->id,
                     'id_pelanggan' => $request->id_pelanggan,
                     'total_credit' => $request->total_order,
                     'tenor' => $request->tenor,
@@ -459,6 +516,7 @@ class TransaksiPemasukanController extends Controller
                 // dd($bayar_bulanan);
 
                 $credit = Credit::create([
+                    'id_transaksi' => $pemasukan->id,
                     'id_pelanggan' => $request->id_pelanggan,
                     'total_credit' => $request->total_order,
                     'tenor' => $request->tenor,
@@ -480,17 +538,6 @@ class TransaksiPemasukanController extends Controller
                     ]);
                 }
             }
-
-            // Save data to pemasukan table
-            $pemasukan = TransaksiPemasukan::create([
-                'total_transaksi' => $request->total_order,
-                'note' => $request->note,
-                'tanggal_transaksi' => $request->tanggal_transaksi,
-                'id_pelanggan' => $request->id_pelanggan,
-                'id_user' => auth()->user()->id,
-                'pembayaran' => 'Credit',
-                'tenor' => $request->tenor,
-            ]);
 
         }
 

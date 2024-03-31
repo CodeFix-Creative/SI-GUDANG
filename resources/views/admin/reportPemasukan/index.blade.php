@@ -73,6 +73,7 @@
                                     <th class="text-center">
                                         #
                                     </th>
+                                    <th>Invoice</th>
                                     <th>Pelanggan</th>
                                     <th>Total Transaksi</th>
                                     <th>Tanggal transaksi</th>
@@ -90,6 +91,7 @@
                                     <td class="text-center">
                                         {{ $loop->iteration }}
                                     </td>
+                                    <td>{{ $data->invoice }}</td>
                                     <td>{{ $data->pelanggan->nama_pelanggan }}</td>
                                     <td>Rp. {{ number_format($data->total_transaksi, 0, '', '.') }}</td>
                                     <td>{{ date('d/m/Y', strtotime($data->tanggal_transaksi)); }}</td>
@@ -116,6 +118,16 @@
                                     </td>
                                     <td>
                                       <a href="{{ route('report.pemasukan.detail' , $data->id) }}" class="btn btn-info">Detail</a>
+                                      @if (auth()->user()->role == 'Super Admin')
+                                      <form method="POST" action="{{ route('transaksi-pemasukan.destroy' , $data->id) }}" id="delete" class="d-inline">
+                                          {{ csrf_field() }}
+                                          {{ method_field('DELETE') }}
+
+                                          <div class="d-inline">
+                                              <input type="submit" class="btn btn-danger delete-user" value="Hapus">
+                                          </div>
+                                      </form>
+                                      @endif
                                     </td>
                                 </tr>
                                 @endforeach

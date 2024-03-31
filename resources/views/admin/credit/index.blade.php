@@ -82,6 +82,7 @@
                                     <th class="text-center">
                                         #
                                     </th>
+                                    <th>Invoice Transaksi</th>
                                     <th>Pelanggan</th>
                                     <th>Total Credit</th>
                                     <th>Tenor</th>
@@ -98,6 +99,7 @@
                                     <td class="text-center">
                                         {{ $loop->iteration }}
                                     </td>
+                                    <td>{{ $data->transaksi->invoice}}</td>
                                     <td>{{ $data->pelanggan->nama_pelanggan }}</td>
                                     <td>Rp. {{ number_format($data->total_credit, 0, '', '.') }}</td>
                                     <td>{{ $data->tenor }}</td>
