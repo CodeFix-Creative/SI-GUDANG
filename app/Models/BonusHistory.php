@@ -30,7 +30,7 @@ class BonusHistory extends Model
 
 
     public function user(){
-        return $this->belongsTo(User::class, 'id_user', 'id');
+        return $this->belongsTo(User::class, 'id_user', 'id')->withTrashed();
     }
 
 
@@ -40,6 +40,6 @@ class BonusHistory extends Model
 
 
     public function sales(){
-        return $this->belongsTo(Sales::class, 'id_sales', 'id');
+        return $this->belongsTo(Sales::class, 'id_sales', 'id')->withTrashed();
     }
 }

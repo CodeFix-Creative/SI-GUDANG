@@ -43,17 +43,17 @@
     });
 
     @if(Session::has('toast_success'))
+    var messages = @json(Session::get('toast_success'));
     iziToast.success({
         title: 'Berhasil !',
-        message: '{{ Session::get('
-        toast_success ') }}',
+        message: messages,
         position: 'topRight'
     });
     @elseif(Session::has('toast_error'))
+    var messages = @json(Session::get('toast_error'));
     iziToast.error({
         title: 'Gagal !',
-        message: '{{ Session::get('
-        toast_error ') }}',
+        message: messages,
         position: 'topRight'
     });
     @endif

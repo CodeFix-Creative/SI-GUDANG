@@ -24,16 +24,16 @@ class TransaksiPemasukanSales extends Model
     ];
 
     public function user(){
-        return $this->belongsTo(User::class, 'id_user', 'id');
+        return $this->belongsTo(User::class, 'id_user', 'id')->withTrashed();
     }
 
 
     public function pelanggan(){
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id');
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan', 'id')->withTrashed();
     }
 
 
     public function sales(){
-        return $this->belongsTo(Sales::class, 'id_sales', 'id');
+        return $this->belongsTo(Sales::class, 'id_sales', 'id')->withTrashed();
     }
 }

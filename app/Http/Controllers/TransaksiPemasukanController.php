@@ -35,11 +35,15 @@ class TransaksiPemasukanController extends Controller
     public function form($id)
     {
         // Session::forget('Cart');
-        $pelanggan = Pelanggan::where('id' , $id)->first();
+        $pelanggan = Pelanggan::find($id);
         $produk = ProdukHarga::where('id_pelanggan' , $pelanggan->id)->get();
-        $sales = Sales::where('id' , $pelanggan->id_sales)->first();
+        $sales = Sales::find($pelanggan->id_sales);
 
-        // dd($sales);
+        if ($pelanggan->sales->trashed()) {
+            return redirect()->back()->with('toast_error', 'Ups, Mohon atur ulang sales untuk pelanggan ini!');
+        }
+
+        // dd($pelanggan->sales->trashed());
 
         return view('admin.pemasukan.form' , compact('produk' , 'pelanggan' , 'sales'));
     }
