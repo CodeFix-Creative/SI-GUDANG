@@ -17,7 +17,7 @@ class ProdukMasukController extends Controller
      */
     public function index()
     {
-        $datas = ProdukMasuk::orderBy('created_at' , 'ASC')->get();
+        $datas = ProdukMasuk::orderBy('created_at' , 'DESC')->get();
 
         return view('admin.produkMasuk.index' , compact('datas'));
     }
